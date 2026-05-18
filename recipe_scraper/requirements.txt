@@ -1,0 +1,4 @@
+httpx
+python-dotenv
+sqlmodel
+psycopg2

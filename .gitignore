@@ -1,0 +1,20 @@
+# Env
+.env
+.env.*
+
+# Vitual envi
+.venv/
+venv/
+
+# py
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+
+# Data
+*.json
+*.csv
