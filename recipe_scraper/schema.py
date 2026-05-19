@@ -1,8 +1,11 @@
+from typing import ClassVar
 from uuid import UUID
 from sqlmodel import Field, SQLModel
 
 
 class Recipe(SQLModel, table=True):
+    __tablename__: ClassVar[str] = "recipes"  # pyright: ignore[reportIncompatibleVariableOverride]
+
     id: UUID = Field(primary_key=True)
     name: str | None = None
     description: str | None = None
@@ -18,16 +21,20 @@ class Recipe(SQLModel, table=True):
 
 
 class Section(SQLModel, table=True):
+    __tablename__: ClassVar[str] = "sections"  # pyright: ignore[reportIncompatibleVariableOverride]
+
     id: int | None = Field(default=None, primary_key=True)
-    recipe_id: UUID = Field(foreign_key="recipe.id")
+    recipe_id: UUID = Field(foreign_key="recipes.id")
     name: str | None = None
     sort_index: int | None = None
 
 
 class Step(SQLModel, table=True):
+    __tablename__: ClassVar[str] = "steps"  # pyright: ignore[reportIncompatibleVariableOverride]
+
     id: int | None = Field(default=None, primary_key=True)
-    recipe_id: UUID = Field(foreign_key="recipe.id")
-    section_id: int = Field(foreign_key="section.id")
+    recipe_id: UUID = Field(foreign_key="recipes.id")
+    section_id: int = Field(foreign_key="sections.id")
     description: str | None = None
     sort_index: int | None = None
     tip: str | None = None
@@ -35,9 +42,11 @@ class Step(SQLModel, table=True):
 
 
 class Ingredient(SQLModel, table=True):
+    __tablename__: ClassVar[str] = "ingredients"  # pyright: ignore[reportIncompatibleVariableOverride]
+
     id: int | None = Field(default=None, primary_key=True)
-    recipe_id: UUID = Field(foreign_key="recipe.id")
-    section_id: int = Field(foreign_key="section.id")
+    recipe_id: UUID = Field(foreign_key="recipes.id")
+    section_id: int = Field(foreign_key="sections.id")
     name: str | None = None
     sort_index: int | None = None
     in_pantry: bool = False

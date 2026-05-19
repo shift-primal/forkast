@@ -13,7 +13,7 @@ import {
 
 export const mealEnum = pgEnum('meal', ['breakfast', 'lunch', 'dinner', 'supper', 'snack']);
 
-export const recipe = pgTable('recipe', {
+export const recipes = pgTable('recipes', {
     id: uuid().primaryKey(),
     name: varchar({ length: 255 }),
     description: text(),
@@ -28,27 +28,27 @@ export const recipe = pgTable('recipe', {
     averageRating: real('average_rating')
 });
 
-export const section = pgTable('section', {
+export const sections = pgTable('sections', {
     id: serial().primaryKey(),
-    recipeId: uuid('recipe_id').references(() => recipe.id),
+    recipeId: uuid('recipe_id').references(() => recipes.id),
     name: varchar({ length: 255 }),
     sortIndex: integer('sort_index')
 });
 
-export const step = pgTable('step', {
+export const steps = pgTable('steps', {
     id: serial().primaryKey(),
-    recipeId: uuid('recipe_id').references(() => recipe.id),
-    sectionId: integer('section_id').references(() => section.id),
+    recipeId: uuid('recipe_id').references(() => recipes.id),
+    sectionId: integer('section_id').references(() => sections.id),
     description: text(),
     sortIndex: integer('sort_index'),
     tip: text(),
     imageId: varchar('image_id', { length: 255 })
 });
 
-export const ingredient = pgTable('ingredient', {
+export const ingredients = pgTable('ingredients', {
     id: serial().primaryKey(),
-    recipeId: uuid('recipe_id').references(() => recipe.id),
-    sectionId: integer('section_id').references(() => section.id),
+    recipeId: uuid('recipe_id').references(() => recipes.id),
+    sectionId: integer('section_id').references(() => sections.id),
     name: varchar({ length: 255 }),
     sortIndex: integer('sort_index'),
     inPantry: boolean('in_pantry').default(false),
@@ -59,16 +59,16 @@ export const ingredient = pgTable('ingredient', {
     additionalInfo: text('additional_info')
 });
 
-export const mealPlanEntry = pgTable('meal_plan_entry', {
+export const mealPlanEntries = pgTable('meal_plan_entries', {
     id: serial().primaryKey(),
-    recipeId: uuid('recipe_id').references(() => recipe.id),
+    recipeId: uuid('recipe_id').references(() => recipes.id),
     date: date().notNull(),
     meal: mealEnum().notNull(),
     notes: text(),
     servings: integer().default(2)
 });
 
-export const pantryItem = pgTable('pantry_item', {
+export const pantryItems = pgTable('pantry_items', {
     id: serial().primaryKey(),
     name: varchar({ length: 255 }).notNull(),
     amount: real(),
