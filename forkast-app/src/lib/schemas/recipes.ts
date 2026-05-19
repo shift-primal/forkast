@@ -1,12 +1,11 @@
-import { recipes } from '#/db/schema';
-import type { InferSelectModel } from 'drizzle-orm';
+import type { getRecipe } from '#/db/queries/recipes';
 import z from 'zod';
 
-export const getRecipeInput = z.object({
+export const getRecipeSchema = z.object({
     recipeId: z.uuid()
 });
 
-export const getRecipesInput = z.object({
+export const getRecipesSchema = z.object({
     search: z.string().optional(),
     maxDifficulty: z.int().min(1).max(4).optional(),
     maxTime: z.int().positive().optional(),
@@ -17,6 +16,6 @@ export const getRecipesInput = z.object({
     sortDir: z.enum(['asc', 'desc']).default('asc')
 });
 
-export type Recipe = InferSelectModel<typeof recipes>;
-export type GetRecipeInput = z.infer<typeof getRecipeInput>;
-export type GetRecipesInput = z.infer<typeof getRecipesInput>;
+export type GetRecipeInput = z.infer<typeof getRecipeSchema>;
+export type GetRecipesInput = z.infer<typeof getRecipesSchema>;
+export type Recipe = NonNullable<Awaited<ReturnType<typeof getRecipe>>>;

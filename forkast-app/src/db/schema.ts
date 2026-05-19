@@ -4,6 +4,7 @@ import {
     integer,
     pgEnum,
     pgTable,
+    primaryKey,
     real,
     serial,
     text,
@@ -62,6 +63,7 @@ export const ingredients = pgTable('ingredients', {
 export const mealPlanEntries = pgTable('meal_plan_entries', {
     id: serial().primaryKey(),
     recipeId: uuid('recipe_id').references(() => recipes.id),
+    userId: uuid('user_id').notNull(),
     date: date().notNull(),
     meal: mealEnum().notNull(),
     notes: text(),
@@ -70,8 +72,20 @@ export const mealPlanEntries = pgTable('meal_plan_entries', {
 
 export const pantryItems = pgTable('pantry_items', {
     id: serial().primaryKey(),
+    userId: uuid('user_id').notNull(),
     name: varchar({ length: 255 }).notNull(),
     amount: real(),
     unit: varchar({ length: 100 }),
     notes: text()
 });
+
+export const favorites = pgTable(
+    'favorites',
+    {
+        userId: uuid('user_id').notNull(),
+        recipeId: uuid('recipe_id')
+            .notNull()
+            .references(() => recipes.id)
+    },
+    (t) => [primaryKey({ columns: [t.userId, t.recipeId] })]
+);

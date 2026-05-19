@@ -1,4 +1,6 @@
 allowBuilds:
-    esbuild: true
-    msw: true
-    unrs-resolver: true
+  '@sentry-internal/node-cpu-profiler': true
+  core-js: true
+  esbuild: true
+  msw: true
+  unrs-resolver: true

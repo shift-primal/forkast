@@ -7,14 +7,12 @@ import viteReact, { reactCompilerPreset } from '@vitejs/plugin-react';
 import babel from '@rolldown/plugin-babel';
 import tailwindcss from '@tailwindcss/vite';
 import { nitro } from 'nitro/vite';
-import neon from './neon-vite-plugin.ts';
-
 const config = defineConfig({
+    envDir: '../',
     resolve: { tsconfigPaths: true },
     plugins: [
         devtools(),
         nitro({ rollupConfig: { external: [/^@sentry\//] } }),
-        neon,
         tailwindcss(),
         tanstackStart(),
         viteReact(),
