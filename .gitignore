@@ -27,3 +27,4 @@ dist-ssr
 .output
 .vinxi
 __unconfig*
+/plan.md
