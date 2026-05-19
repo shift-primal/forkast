@@ -1,3 +1,4 @@
+import { MEAL_ENUM } from '#/lib/constants';
 import {
     boolean,
     date,
@@ -12,7 +13,7 @@ import {
     varchar
 } from 'drizzle-orm/pg-core';
 
-export const mealEnum = pgEnum('meal', ['breakfast', 'lunch', 'dinner', 'supper', 'snack']);
+export const mealEnum = pgEnum('meal', MEAL_ENUM);
 
 export const recipes = pgTable('recipes', {
     id: uuid().primaryKey(),
@@ -65,7 +66,7 @@ export const mealPlanEntries = pgTable('meal_plan_entries', {
     recipeId: uuid('recipe_id').references(() => recipes.id),
     userId: uuid('user_id').notNull(),
     date: date().notNull(),
-    meal: mealEnum().notNull(),
+    meal: mealEnum(),
     notes: text(),
     servings: integer().default(2)
 });

@@ -3,8 +3,8 @@ import { recipes } from '#/db/schema';
 import type { GetRecipeInput, GetRecipesInput } from '#/lib/schemas/recipes';
 import { and, asc, desc, eq, gte, ilike, lte, sql } from 'drizzle-orm';
 
-export async function getRecipe(input: GetRecipeInput) {
-    const recipe = await db.query.recipes.findFirst({
+export function getRecipe(input: GetRecipeInput) {
+    return db.query.recipes.findFirst({
         where: eq(recipes.id, input.recipeId),
         with: {
             sections: {
@@ -15,7 +15,6 @@ export async function getRecipe(input: GetRecipeInput) {
             }
         }
     });
-    return recipe ?? null;
 }
 
 export async function getRecipes(filters: GetRecipesInput) {
